@@ -1,0 +1,120 @@
+/* 页面布局 */
+.el-container {
+    width: 100%;
+    height: 100%;
+}
+
+.el-main {
+    padding: 0;
+}
+
+
+/* 对话框 */
+.el-dialog__header,
+.el-dialog__body {
+    border-bottom: 1px solid #e6e7e9;
+}
+
+.el-dialog__title {
+    font-size: 16px;
+    color: #3c4a54;
+}
+
+
+/*整体滚动条样式*/
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(104, 102, 102, 0.3);
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+
+/* 表格内滚动条样式 */
+.el-table__body-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+}
+
+.el-table__fixed,
+.el-table__fixed-right,
+.el-table__fixed-left {
+    height: auto !important;
+    bottom: 9px !important;
+}
+
+
+/* 分页 */
+.el-pagination {
+    padding: 0;
+}
+
+
+/* 抽屉 */
+.el-drawer__header {
+    color: #303133;
+    font-weight: 600;
+    border-bottom: #c0c4cc solid 1px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+:focus {
+    outline: 0;
+}
+
+/* 标记 */
+.tab-status .el-badge__content {
+    transform: translateY(80%) translateX(-280%);
+}
+
+/* 加载动画 */
+.el-loading-spinner .circular {
+    width: 42px;
+    height: 42px;
+    animation: loading-rotate 2s linear infinite;
+    display: none;
+}
+
+.el-loading-spinner {
+    background: url(../images/loading3.gif) no-repeat;
+    background-size: 280px 280px;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 20%;
+    left: 35%;
+}
+
+
+/* 角色管理、用户管理公共样式 */
+.role {
+    width: 98%;
+    height: 100%;
+    padding: 0 1%;
+}
+
+.operation {
+    width: 100%;
+    height: 8%;
+    display: flex;
+    align-items: center;
+}
+
+
+/* 树型菜单 */
+.roleMenuTree {
+    height: 610px;
+    border-bottom: #c0c4cc solid 1px;
+    overflow-y: scroll;
+}
+
+.roleMenuDiv {
+    padding: 10px 0 0 20px;
+}

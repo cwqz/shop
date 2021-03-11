@@ -1,18 +1,51 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="home" ref="init">
+    <el-container>
+      <el-aside class="home_aside">
+        <common-aside />
+      </el-aside>
+      <el-main class="home_main">
+        <home-header />
+        <router-view :style="{ height: mainHeight + 'px' }" />
+      </el-main>
+    </el-container>
   </div>
 </template>
-
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import commonAside from "../components/commonAside";
+import homeHeader from "../components/homeHeder";
 export default {
-  name: "Home",
   components: {
-    HelloWorld
-  }
+    commonAside,
+    homeHeader,
+  },
+  data() {
+    return {
+      mainHeight: 0,
+    };
+  },
+  mounted() {
+    this.$nextTick(function () {
+      let height = this.$refs.init.offsetHeight;
+      this.mainHeight = height - 110;
+    });
+  },
 };
 </script>
+<style lang="less" scoped>
+.home {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.home_aside {
+  width: 240px !important;
+  height: 100%;
+}
+
+.home_main {
+  width: 85%;
+  background-color: #ffffff;
+}
+</style>

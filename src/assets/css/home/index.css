@@ -1,0 +1,277 @@
+.index {
+    width: 96%;
+    height: 100%;
+    padding: 0 2%;
+    overflow-y: scroll;
+    background-color: #F2F6FC;
+}
+
+.index_one {
+    width: 100%;
+    height: 150px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+}
+
+.index_one_left {
+    width: 150px;
+    height: 100%;
+}
+
+.index_one_left_img {
+    width: 100px;
+    height: 100px;
+    margin: 25px 25px;
+}
+
+.index_one_right {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+}
+
+.index_one_right_title {
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #3c4a54;
+}
+
+.index_one_right_text {
+    width: 100%;
+    height: 70px;
+    font-size: 14px;
+    color: #808695;
+}
+
+.index_two {
+    width: 100%;
+    height: 700px;
+    padding-top: 2%;
+    display: flex;
+    flex-direction: row;
+}
+
+.index_two_left {
+    width: 58%;
+    height: 100%;
+    margin-right: 2%;
+    display: flex;
+    flex-direction: column;
+}
+
+.index_two_left_project {
+    width: 100%;
+    height: 58%;
+    margin-bottom: 2%;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.index_two_left_project_head {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    padding-top: 1%;
+}
+
+.index_two_left_project_head_conduct {
+    width: 80%;
+    height: 100%;
+    padding-left: 5%;
+}
+
+.index_two_left_project_head_all {
+    width: 20%;
+    height: 100%;
+}
+
+.index_two_left_project_content {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-top: 1px solid rgb(220, 223, 220);
+}
+
+.index_two_left_project_content_icon {
+    width: 100%;
+    height: 30px;
+    padding-left: 5%;
+    font-family: "Microsoft YaHei";
+    color: #51545c;
+}
+
+.index_two_left_project_content_icon_img {
+    width: 20px;
+    height: 20px;
+    padding-top: 3px;
+}
+
+.index_two_left_project_content_icon_name {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.index_two_left_project_content_icon_team {
+    font-size: 10px;
+}
+
+.index_two_left_project_content_text {
+    width: 90%;
+    height: 50px;
+    font-size: 10px;
+    font-family: "Microsoft YaHei";
+    color: #51545c;
+    padding: 0 5%;
+    line-height: 20px;
+    /* background-color: blue; */
+}
+
+.index_two_left_news {
+    width: 100%;
+    height: 40%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.index_two_left_news_head {
+    width: 100%;
+    height: 10%;
+    padding-left: 5%;
+}
+
+.index_two_left_news_content {
+    width: 100%;
+    height: 90%;
+    border-top: 1px solid rgb(220, 223, 220);
+}
+
+.index_two_left_news_content_item {
+    width: 90%;
+    height: 21%;
+    margin: 1% 5% 0 5%;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid rgb(220, 223, 220);
+}
+
+.index_two_left_news_content_item_img {
+    width: 8%;
+    height: 60%;
+    padding-top: 1%;
+}
+
+.index_two_left_news_content_item_dec {
+    width: 90%;
+    height: 100%;
+    padding-left: 2%;
+    line-height: 40px;
+    font-size: 14px;
+    color: #515a6e;
+}
+
+.index_two_right {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.index_two_right_nav {
+    width: 100%;
+    height: 25%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.index_two_right_nav_head {
+    width: 100%;
+    height: 28%;
+    padding: 2% 0 0 5%;
+}
+
+.index_two_right_nav_content {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-top: 1px solid rgb(220, 223, 220);
+}
+
+.index_two_right_nav_content_link {
+    width: 15%;
+    height: 10px;
+    margin: 2% 5%;
+}
+
+.index_two_right_nav_team {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid rgb(220, 223, 220);
+}
+
+.index_two_right_nav_team_left {
+    width: 45%;
+    height: 100%;
+    margin: 0 5%;
+}
+
+.index_two_right_nav_team_left_img {
+    width: 22px;
+    height: 22px;
+    padding-top: 3px;
+}
+
+.index_two_right_nav_team_left_name {
+    font-size: 13px;
+    line-height: 30px;
+    color: #515a6e;
+}
+
+.index_two_right_nav_team_right {
+    width: 45%;
+    height: 100%;
+}
+
+.index_two_right_table {
+    width: 100%;
+    height: 46%;
+    margin: 2% 0;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.index_two_right_table_head {
+    width: 100%;
+    height: 10%;
+    padding: 2% 0 0 5%;
+}
+
+.index_two_right_table_content {
+    width: 100%;
+    height: 88%;
+    border-top: 1px solid rgb(220, 223, 220);
+}
+
+.index_two_right_table_content_table {
+    width: 90%;
+    height: 180px;
+    font-size: 15px;
+    margin: 4% 5%;
+    border: 1px solid rgb(221, 217, 217);
+    text-align: center;
+    color: #515a6e;
+}

@@ -1,0 +1,194 @@
+<template>
+    <div class="content">
+        <div class="container animation-2">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+            <div class="shape shape3"></div>
+            <div class="shape shape4"></div>
+        </div>
+        <div class="tab-text">加载中...</div>
+    </div>
+</template>
+<style  lang="less" scoped>
+.content {
+  width: 100px;
+  margin: auto;
+  padding: 5px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  -webkit-transform: rotate(10deg);
+          transform: rotate(10deg);
+    -webkit-animation: rotation 1s infinite;
+          animation: rotation 1s infinite;
+}
+.container.animation-2 .shape {
+  border-radius: 5px;
+}
+
+.container .shape {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 1px;
+}
+.container .shape.shape1 {
+  left: 0;
+  background-color: #5C6BC0;
+}
+.container .shape.shape2 {
+  right: 0;
+  background-color: #8BC34A;
+}
+.container .shape.shape3 {
+  bottom: 0;
+  background-color: #FFB74D;
+}
+.container .shape.shape4 {
+  bottom: 0;
+  right: 0;
+  background-color: #F44336;
+}
+
+@-webkit-keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes rotation {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+.animation-2 .shape1 {
+  -webkit-animation: animation2shape1 1s ease 0s infinite alternate;
+          animation: animation2shape1 1s ease 0s infinite alternate;
+}
+
+@-webkit-keyframes animation2shape1 {
+  from {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  to {
+    -webkit-transform: translate(20px, 20px);
+            transform: translate(20px, 20px);
+  }
+}
+
+@keyframes animation2shape1 {
+  from {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  to {
+    -webkit-transform: translate(20px, 20px);
+            transform: translate(20px, 20px);
+  }
+}
+.animation-2 .shape2 {
+  -webkit-animation: animation2shape2 1s ease 0s infinite alternate;
+          animation: animation2shape2 1s ease 0s infinite alternate;
+}
+
+@-webkit-keyframes animation2shape2 {
+  from {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  to {
+    -webkit-transform: translate(-20px, 20px);
+            transform: translate(-20px, 20px);
+  }
+}
+
+@keyframes animation2shape2 {
+  from {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  to {
+    -webkit-transform: translate(-20px, 20px);
+            transform: translate(-20px, 20px);
+  }
+}
+.animation-2 .shape3 {
+  -webkit-animation: animation2shape3 1s ease 0s infinite alternate;
+          animation: animation2shape3 1s ease 0s infinite alternate;
+}
+
+@-webkit-keyframes animation2shape3 {
+  from {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  to {
+    -webkit-transform: translate(20px, -20px);
+            transform: translate(20px, -20px);
+  }
+}
+
+@keyframes animation2shape3 {
+  from {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  to {
+    -webkit-transform: translate(20px, -20px);
+            transform: translate(20px, -20px);
+  }
+}
+.animation-2 .shape4 {
+  -webkit-animation: animation2shape4 1s ease 0s infinite alternate;
+          animation: animation2shape4 1s ease 0s infinite alternate;
+}
+
+@-webkit-keyframes animation2shape4 {
+  from {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  to {
+    -webkit-transform: translate(-20px, -20px);
+            transform: translate(-20px, -20px);
+  }
+}
+
+@keyframes animation2shape4 {
+  from {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  to {
+    -webkit-transform: translate(-20px, -20px);
+            transform: translate(-20px, -20px);
+  }
+}
+.tab-text {
+    font-size: 12px;
+	font-weight: 100;
+    margin-top: 10px;
+    margin-left: 6px;
+    color: #409EFF;
+}
+</style>
