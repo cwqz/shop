@@ -8,10 +8,6 @@
     class="menu"
     router
   >
-    <div class="menu_logo">
-      <img src="../assets/images/logo.png" class="menu_logo_img" />
-      <h1 class="menu_logo_title">一体化云平台</h1>
-    </div>
     <div v-for="(item, index) in menus1" :key="index">
       <el-submenu
         :index="item.path"
@@ -52,28 +48,6 @@ export default {
 .menu {
   height: 100%;
   overflow: hidden;
-}
-
-.menu_logo {
-  width: 100%;
-  height: 74px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background: linear-gradient(to right, #081f53, #2257a0);
-}
-
-.menu_logo_img {
-  width: 38px;
-  height: 38px;
-  margin: 0px 10px 0 25px;
-}
-
-.menu_logo_title {
-  font-size: 24px;
-  font-family: "Microsoft YaHei";
-  line-height: 74px;
-  color: white;
 }
 </style>
 <style>

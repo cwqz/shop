@@ -34,13 +34,14 @@
         </div>
         <div class="personalCenter_content_left_tag">
           <div class="personalCenter_content_left_tag_item">
-            <i class="el-icon-user" style="margin-right: 10px" />web开发
+            <i class="el-icon-user" style="margin-right: 10px" />{{
+              this.$store.state.currentUser.username
+            }}
           </div>
           <div class="personalCenter_content_left_tag_item">
-            <i
-              class="el-icon-mobile"
-              style="margin-right: 10px"
-            />赛思科技-研发一部
+            <i class="el-icon-mobile" style="margin-right: 10px" />{{
+              this.$store.state.currentUser.phone
+            }}
           </div>
           <div class="personalCenter_content_left_tag_item">
             <i class="el-icon-location-outline" style="margin-right: 10px" />{{
@@ -55,14 +56,6 @@
             >
               {{ item.description }}
             </span>
-          </div>
-        </div>
-        <div class="personalCenter_content_left_dec">
-          <div class="personalCenter_content_left_dec_title">个性标签</div>
-          <div>
-            <el-tag v-for="(item, index) in label" :key="index">
-              {{ item }}
-            </el-tag>
           </div>
         </div>
       </div>
@@ -84,12 +77,8 @@
               <el-form-item label="邮箱" prop="email">
                 <el-input v-model="userMessageForm.email" />
               </el-form-item>
-              <el-form-item label="备注" prop="note">
-                <el-input
-                  type="textarea"
-                  :rows="4"
-                  v-model="userMessageForm.note"
-                />
+              <el-form-item label="手机号" prop="phone">
+                <el-input v-model="userMessageForm.phone" />
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="updateUser()"
@@ -126,7 +115,6 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
-          <el-tab-pane label="新消息通知">新消息通知</el-tab-pane>
         </el-tabs>
       </div>
     </div>
@@ -160,7 +148,7 @@ export default {
         username: this.$store.state.currentUser.username,
         nickName: this.$store.state.currentUser.nickName,
         email: this.$store.state.currentUser.email,
-        note: this.$store.state.currentUser.note,
+        phone: this.$store.state.currentUser.phone,
       },
       //   标签
       label: [],
@@ -200,19 +188,12 @@ export default {
       message: "",
     };
   },
-  created() {
-    let tag = this.$store.state.user.label;
-    this.label = tag.split(",");
-  },
   methods: {
     //   修改用户信息
     updateUser() {
       this.$refs.userMessageForm.validate((valid) => {
         if (valid) {
-          this.postRequest(
-            "/workbench-system/user/updateUser",
-            this.userMessageForm
-          ).then((resp) => {
+          this.putRequest("/user/user", this.userMessageForm).then((resp) => {
             if (resp) {
               this.$message({
                 message: "用户信息修改成功！",
@@ -220,7 +201,7 @@ export default {
               });
               this.$store.state.currentUser.email = this.userMessageForm.email;
               this.$store.state.currentUser.nickName = this.userMessageForm.nickName;
-              this.$store.state.currentUser.note = this.userMessageForm.note;
+              this.$store.state.currentUser.phone = this.userMessageForm.phone;
               this.reload();
             } else {
               this.$message.error("用户信息修改失败！");
@@ -236,7 +217,7 @@ export default {
       this.$refs.passwordForm.validate((valid) => {
         if (valid) {
           this.postRequest(
-            "/workbench-system/user/changePassword?newPassword=" +
+            "/user/changePassword?newPassword=" +
               this.passwordForm.newPassword +
               "&oldPassword=" +
               this.passwordForm.oldPassword
