@@ -1,0 +1,179 @@
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    width: 100%;
+    height: 5% !important;
+    text-align: right;
+    font-size: 12px !important;
+    font-family: 微软雅黑 !important;
+    color: #888 !important;
+    background: #f6f6f6;
+}
+
+.header_all {
+    height: 100%;
+    margin: 0 10%;
+}
+
+.header_title {
+    float: left;
+    height: 50%;
+    margin-top: 1%;
+}
+
+.header_menu {
+    height: 50%;
+    float: right;
+    margin-top: 1%;
+}
+
+.header_menu .el-link {
+    font-size: 12px;
+    font-family: 微软雅黑;
+}
+
+.main {
+    width: 100%;
+    height: 89% !important;
+    padding: 0 !important;
+}
+
+.main_search {
+    width: 100%;
+    height: 22%;
+    display: flex;
+    flex-direction: row;
+}
+
+.search_img {
+    width: 9%;
+    height: 90%;
+    margin: auto 0 auto 17%;
+}
+
+.serach_all {
+    width: 74%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.main_search_input {
+    width: 50%;
+    height: 28.5%;
+    margin: 4% 0 0 14%;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.search_btn {
+    width: 16%;
+    background: #dd4545 !important;
+    color: #fff !important;
+    border-radius: 0 !important;
+    border: solid 2px #dd4545 !important;
+}
+
+.divider {
+    margin: 0 !important;
+    height: 2px !important;
+    background-color: #F2F6FC !important;
+}
+
+.product {
+    width: 100%;
+    height: 74%;
+    padding: 10px 0;
+    overflow: auto;
+}
+
+.product_details {
+    width: 60%;
+    height: 410px;
+    margin: 2% 20%;
+    display: flex;
+    flex-direction: row;
+    background-color: #EBEEF5;
+}
+
+
+.product_details_img {
+    width: 50%;
+
+}
+
+.product_details_img_item {
+    width: 80%;
+    height: 280px;
+    margin: 10% 10%;
+}
+
+.product_details_message {
+    width: 50%;
+    padding-top: 2%;
+    font-size: 18px;
+    color: #909399;
+}
+
+.product_type {
+    width: 80%;
+    height: 10%;
+    margin: 1% 9%;
+    color: #909399
+}
+
+.product_type_name {
+    margin-right: 15px;
+}
+
+.product_list {
+    width: 100%;
+    height: 330px;
+}
+
+.product_item {
+    width: 250px;
+    height: 310px;
+    padding: 10px 10px;
+    margin-bottom: 10px;
+}
+
+.product_img {
+    width: 215px;
+    height: 160px;
+}
+
+.product_description {
+    height: 50px;
+    color: #606266;
+    font-size: 6px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.contact {
+    width: 48px;
+    height: 65%;
+    position: absolute;
+    right: 16px;
+    top: 25%;
+    padding-top: 2%;
+    background-color: #909399;
+}
+
+.contact_item {
+    width: 35px;
+    height: 35px;
+    margin: 0 0 22px 7px !important;
+}
+
+.footer {
+    width: 100%;
+    height: 6% !important;
+    background-color: #f6f6f6;
+}

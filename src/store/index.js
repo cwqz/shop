@@ -12,7 +12,10 @@ export default new Vuex.Store({
         // 存储token，读取当前的token值,跳转路由时确保有token存在
         currentUser: JSON.parse(window.sessionStorage.getItem("token")),
         // 用户信息
-        user: {}
+        user: {},
+        isSale: false,
+        isPersonal: false,
+        saleOrPersonal: false
     },
     mutations: {
         // 修改token
@@ -26,8 +29,15 @@ export default new Vuex.Store({
         // 修改用户信息
         initUser(state,user){
             state.user = user;
+        },
+        CHANGE_IS_SALE(state, isSale) {
+            state.isSale = isSale
+            state.saleOrPersonal = isSale
+        },
+        CHANGE_IS_PERSONAL(state, isPersonal) {
+            state.isPersonal = isPersonal
+            state.saleOrPersonal = !isPersonal
         }
-
 
     },
     actions: {},

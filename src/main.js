@@ -61,9 +61,9 @@ Vue.prototype.formatDate = function(row, column, cellValue){
 // 路由导航守卫
 router.beforeEach((to, from, next) => {
         // 要跳转到登录页
-        if (to.path === '/' || to.path === '/register') {
+        if(to.path === '/'||to.path === '/login' || to.path === '/register'||to.path ==='/houseDetails'){
             next();
-            return;
+            return
         } else {
             if (window.sessionStorage.getItem("token")) {
                 if (from.path !== to.path) {
@@ -75,7 +75,22 @@ router.beforeEach((to, from, next) => {
                 next('/');
             }
         }
-    }),
+        // if (to.path === '/' || to.path === '/register') {
+        //     next();
+        //     return;
+        // } else {
+        //     if (window.sessionStorage.getItem("token")) {
+        //         if (from.path !== to.path) {
+        //             initMenu(router, store);
+        //         }
+        //         next();
+        //     } else {
+        //         //  next("/?redirect=" + to.path);
+        //         next('/');
+        //     }
+        // }
+    }
+),
 
     new Vue({
         router,

@@ -103,7 +103,19 @@ export default {
             if (resp.code === 200) {
               this.$store.commit("INIT_CURRENTHR", resp.data);
               window.sessionStorage.setItem("token", JSON.stringify(resp.data));
-              this.$router.replace("/index");
+              if (
+                this.$store.state.isSale &&
+                this.$store.state.saleOrPersonal
+              ) {
+                this.$router.replace("/index");
+              } else if (
+                this.$store.state.isPersonal &&
+                !this.$store.state.saleOrPersonal
+              ) {
+                this.$router.replace("/personalCenter");
+              } else {
+                this.$router.go(-1);
+              }
             }
           });
         } else {
