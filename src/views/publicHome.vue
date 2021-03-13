@@ -28,13 +28,13 @@
               range-separator="至"
               start-placeholder="入住时间"
               end-placeholder="离店时间"
-              value-format=" yyyy-MM-dd HH:mm"
+              value-format=" yyyy-MM-dd"
             />
             <el-button
               class="search_btn"
               icon="el-icon-search"
               @click="searcHouse()"
-              >搜索</el-button
+              >预订</el-button
             >
           </div>
         </div>
@@ -105,7 +105,7 @@
               <el-card
                 class="product_item"
                 shadow="always"
-                @click="Details(item)"
+                @click.native="Details(item)"
               >
                 <img class="product_img" :src="item.img" alt="loading..." />
                 <div class="product_description">
@@ -131,7 +131,7 @@
               <el-card
                 class="product_item"
                 shadow="always"
-                @click="Details(item)"
+                @click.native="Details(item)"
               >
                 <img class="product_img" :src="item.img" alt="loading..." />
                 <div class="product_description">
@@ -157,7 +157,7 @@
               <el-card
                 class="product_item"
                 shadow="always"
-                @click="Details(item)"
+                @click.native="Details(item)"
               >
                 <img class="product_img" :src="item.img" alt="loading..." />
                 <div class="product_description">
@@ -183,7 +183,7 @@
               <el-card
                 class="product_item"
                 shadow="always"
-                @click="Details(item)"
+                @click.native="Details(item)"
               >
                 <img class="product_img" :src="item.img" alt="loading..." />
                 <div class="product_description">
@@ -209,7 +209,7 @@
               <el-card
                 class="product_item"
                 shadow="always"
-                @click="Details(item)"
+                @click.native="Details(item)"
               >
                 <img class="product_img" :src="item.img" alt="loading..." />
                 <div class="product_description">
@@ -235,7 +235,7 @@
               <el-card
                 class="product_item"
                 shadow="always"
-                @click="Details(item)"
+                @click.native="Details(item)"
               >
                 <img class="product_img" :src="item.img" alt="loading..." />
                 <div class="product_description">
@@ -294,11 +294,13 @@ export default {
       //   分类好的
       newPublicHomeTable: {},
       value1: "",
+      //   房间类别
       flag: 0,
     };
   },
   created() {
     this.publicHomeInit();
+    this.$store.commit("CHANGE_SEARCH_FLAG", false);
   },
   methods: {
     publicHomeInit() {
@@ -313,23 +315,37 @@ export default {
             }
             this.newPublicHomeTable[e.type].push(e);
           });
-          console.log(this.newPublicHomeTable);
         }
       });
     },
     // 根据日期搜索房间
     searcHouse() {
-      console.log(this.value1);
-      this.getRequest(
-        "/house/queryByTime?inTime=" +
-          this.value1[0] +
-          "&outTime=" +
-          this.value1[1]
-      ).then((resp) => {
-        if (resp) {
-          console.log(resp.data);
-        }
-      });
+      if (this.$store.state.currentUser === null) {
+        this.$router.replace("/login");
+        this.$store.commit("CHANGE_SEARCH_FLAG", true);
+      } else {
+        this.publicHomeTable = [];
+        this.newPublicHomeTable = {};
+        this.getRequest(
+          "/house/queryByTime?inTime=" +
+            this.value1[0] +
+            "&outTime=" +
+            this.value1[1]
+        ).then((resp) => {
+          if (resp) {
+            this.publicHomeTable = resp.data;
+            this.publicHomeTable.forEach((e) => {
+              if (
+                Object.keys(this.newPublicHomeTable).indexOf("" + e.type) === -1
+              ) {
+                this.newPublicHomeTable[e.type] = [];
+              }
+              this.newPublicHomeTable[e.type].push(e);
+            });
+            this.$store.commit("CHANGE_SEARCH_FLAG", true);
+          }
+        });
+      }
     },
     setFlagAll() {
       this.flag = 0;
@@ -354,6 +370,7 @@ export default {
     },
     // 详情页
     Details(val) {
+      val["time"] = this.value1;
       var arr = JSON.stringify(val);
       this.$router.push("/houseDetails?obj=" + encodeURIComponent(arr));
     },

@@ -68,6 +68,7 @@
               round
               icon="el-icon-folder-checked"
               @click="createOrder"
+              v-if="this.$store.state.searchFlag"
               >立即预订</el-button
             >
           </div>
@@ -100,17 +101,85 @@
         </div>
       </div>
       <el-dialog
-        title="提示"
-        :visible.sync="dialogVisible"
-        width="30%"
+        title="房间预订"
+        :visible="dialogVisible"
+        width="40%"
+        center
         :before-close="handleClose"
       >
-        <span>这是一段信息</span>
+        <el-form :model="order" label-width="100px" v-if="orderFlag">
+          <el-form-item label="支付方式：">
+            <el-radio-group v-model="order.payType">
+              <el-radio :label="0">支付宝</el-radio>
+              <el-radio :label="1">微信</el-radio>
+              <el-radio :label="2">银行卡</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="备注：">
+            <el-input v-model="order.note" type="textarea" :rows="4" />
+          </el-form-item>
+        </el-form>
+        <el-form
+          :model="successInformation"
+          label-width="100px"
+          v-if="!orderFlag"
+        >
+          <el-form-item label="支付方式：">
+            <el-radio-group v-model="successInformation.order.payType">
+              <el-radio :label="0">支付宝</el-radio>
+              <el-radio :label="1">微信</el-radio>
+              <el-radio :label="2">银行卡</el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="入住时间">
+                <el-date-picker
+                  v-model="successInformation.order.inTime"
+                  type="date"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="离店时间">
+                <el-date-picker
+                  v-model="successInformation.order.outTime"
+                  type="date"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="下单时间">
+                <el-date-picker
+                  v-model="successInformation.order.createTime"
+                  type="date"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-form-item label="订单金额">
+            <el-input v-model="successInformation.order.transactionAmount" />
+          </el-form-item>
+          <el-form-item label="备注：">
+            <el-input
+              v-model="successInformation.order.note"
+              type="textarea"
+              :rows="4"
+            />
+          </el-form-item>
+          <el-form-item>
+            <img :src="successInformation.qrCode" />
+          </el-form-item>
+        </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
+          <el-button type="primary" @click="submitOrder()" v-if="orderFlag"
             >确 定</el-button
           >
+          <el-button type="primary" @click="handleClose" v-if="!orderFlag"
+            >确 定</el-button
+          >
+          <el-button @click="handleClose">取 消</el-button>
         </span>
       </el-dialog>
     </el-main>
@@ -128,25 +197,56 @@ export default {
       // 详情
       detailsData: {},
       dialogVisible: false,
+      houseId: "",
+      time: [],
+      order: {
+        userId: this.$store.state.currentUser.id,
+        note: "",
+        payType: "",
+        transactionAmount: "",
+      },
+      orderFlag: true,
+      //   预订成功返回的信息
+      successInformation: {},
     };
   },
   created() {
     this.detailsData = JSON.parse(decodeURIComponent(this.$route.query.obj));
-    console.log(this.detailsData);
+    this.houseId = this.detailsData.id;
+    this.time = this.detailsData.time;
+    if (this.$store.state.currentUser.roles[0].name == "user") {
+      this.order.transactionAmount = this.detailsData.price;
+    } else {
+      this.order.transactionAmount = this.detailsData.memberPrice;
+    }
   },
   methods: {
     back() {
       this.$router.go(-1);
     },
     createOrder() {
-      if (this.$store.state.currentUser === null) {
-        this.$router.replace("/login");
-      } else {
-        this.dialogVisible = true;
-      }
+      this.dialogVisible = true;
     },
     handleClose() {
       this.dialogVisible = false;
+    },
+    submitOrder() {
+      this.postRequest(
+        "/order/createOrder?houseId=" +
+          this.houseId +
+          "&inTime=" +
+          this.time[0] +
+          "&outTime=" +
+          this.time[1],
+        this.order
+      ).then((resp) => {
+        if (resp) {
+          //   this.dialogVisible = false;
+          this.successInformation = resp.data;
+          this.orderFlag = false;
+          console.log(resp);
+        }
+      });
     },
   },
 };

@@ -1,19 +1,21 @@
 .personalCenter {
-    width: 96%;
+    width: 70%;
     height: 100%;
-    padding: 0 2%;
+    padding: 0 15%;
     overflow-y: scroll;
+    background-color: #E4E7ED;
 }
 
 .personalCenter_content {
     width: 100%;
     display: flex;
     flex-direction: row;
+    margin-top: 10px;
 }
 
 .personalCenter_content_left {
     width: 30%;
-    height: 500px;
+    height: 400px;
     margin-right: 2%;
     background-color: white;
 }
@@ -60,10 +62,17 @@
 
 .personalCenter_content_right {
     width: 68%;
-    height: 500px;
+    height: 400px;
     background-color: white;
 }
 
 .personalCenter_content_right_error_message {
     color: red;
+}
+
+.personalCenter_order {
+    width: 100%;
+    height: 280px;
+    margin-top: 20px;
+    background-color: white;
 }

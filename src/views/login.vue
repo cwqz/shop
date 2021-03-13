@@ -113,6 +113,9 @@ export default {
                 !this.$store.state.saleOrPersonal
               ) {
                 this.$router.replace("/personalCenter");
+              }
+              if (this.$store.state.searchFlag) {
+                this.$router.replace("/");
               } else {
                 this.$router.go(-1);
               }
