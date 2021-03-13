@@ -132,7 +132,7 @@
             </el-radio-group>
           </el-form-item>
           <el-row>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item label="入住时间">
                 <el-date-picker
                   v-model="successInformation.order.inTime"
@@ -140,7 +140,7 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
               <el-form-item label="离店时间">
                 <el-date-picker
                   v-model="successInformation.order.outTime"
@@ -148,19 +148,24 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <el-form-item label="下单时间">
                 <el-date-picker
                   v-model="successInformation.order.createTime"
                   type="date"
+                /> </el-form-item
+            ></el-col>
+            <el-col :span="12">
+              <el-form-item label="订单金额">
+                <el-input
+                  v-model="successInformation.order.transactionAmount"
                 />
               </el-form-item>
             </el-col>
           </el-row>
 
-          <el-form-item label="订单金额">
-            <el-input v-model="successInformation.order.transactionAmount" />
-          </el-form-item>
           <el-form-item label="备注：">
             <el-input
               v-model="successInformation.order.note"

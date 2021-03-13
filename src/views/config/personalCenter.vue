@@ -218,7 +218,19 @@ export default {
       ],
     };
   },
+  created() {
+    this.order();
+  },
   methods: {
+    order() {
+      this.getRequest(
+        "/order/queryByUserId?userId=" + this.$store.state.currentUser.id
+      ).then((resp) => {
+        if (resp) {
+          console.log(resp.data);
+        }
+      });
+    },
     //   修改用户信息
     updateUser() {
       this.$refs.userMessageForm.validate((valid) => {
