@@ -22,33 +22,44 @@
         width="160"
         show-overflow-tooltip=""
       />
-      <el-table-column label="房间类型" prop="title" />
+      <el-table-column label="房间类型" prop="title" width="130" />
       <el-table-column label="图片" width="120">
         <template slot-scope="scope" v-if="scope.row.img">
           <el-avatar shape="square" :size="65" :src="scope.row.img" />
         </template>
       </el-table-column>
-      <el-table-column label="会员价(￥)" prop="memberPrice" width="110" />
-      <el-table-column label="标准价(￥)" prop="price" width="180" />
+      <el-table-column label="会员价(￥)" prop="memberPrice" width="120" />
+      <el-table-column label="标准价(￥)" prop="price" width="120" />
       <el-table-column label="可入住人数" prop="peopleNum" width="100" />
       <el-table-column label="房间号" prop="position" width="130" />
       <el-table-column label="状态" width="140">
         <template slot-scope="scope">
           <span v-if="scope.row.status == 0">空闲，可入住</span>
-          <span v-if="scope.row.status == 1">已预定</span>
-          <span v-if="scope.row.status == 2">已入住</span>
+          <span v-if="scope.row.status == 1">有人预定</span>
+          <span v-if="scope.row.status == 2">有人入住</span>
           <span v-if="scope.row.status == 3">维修</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="170">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="editHouse(scope.row)"
-            >编辑</el-button
+          <el-button type="text" size="mini" @click="editHouse(scope.row)" v-if="scope.row.status === 0 || scope.row.status === 3"
+            >修改信息</el-button
+          >
+          <el-button type="text" size="mini" @click="editHouse(scope.row)" v-else :disabled="true"
+            >修改信息</el-button
           >
           <el-button
             type="text"
             size="mini"
+            v-if="scope.row.status === 0 || scope.row.status === 3"
             @click="updateHouseStatus(scope.row)"
+            >修改状态</el-button
+          >
+          <el-button
+            type="text"
+            size="mini"
+            v-else
+            :disabled="true"
             >修改状态</el-button
           >
         </template>
@@ -82,23 +93,6 @@
         <el-form-item label="可入住人数">
           <el-input v-model="editHoseForm.peopleNum" />
         </el-form-item>
-        <!-- <el-form-item label="角色">
-          <el-select v-model="editHoseForm.roleId">
-            <el-option
-              label="系统管理员"
-              value="0dca699b36574a27b815e3467a183a5f"
-            />
-            <el-option label="会员" value="5edc5472476444c6a5d0c07816b9d041" />
-            <el-option
-              label="酒店管理员"
-              value="c1a70a39990f5ab8a873b3a7da462fb4"
-            />
-            <el-option
-              label="普通用户"
-              value="da956f7ce98f4307bfba46c3798639c9"
-            />
-          </el-select>
-        </el-form-item> -->
       </el-form>
       <span slot="footer" class="dialog_footer">
         <el-button type="primary" size="small" @click="submitAddHouse()"
@@ -116,11 +110,9 @@
       :before-close="updateHouseClose"
     >
       <el-form :model="updateHouseForm">
-        <el-form-item label="房间状态">
+        <el-form-item label="选择状态" style="margin-left: 12%">
           <el-select v-model="updateHouseForm.status">
             <el-option label="空闲，可入住" :value="0" />
-            <el-option label="已预定" :value="1" />
-            <el-option label="已入住" :value="2" />
             <el-option label="维修" :value="3" />
           </el-select>
         </el-form-item>
@@ -129,7 +121,7 @@
         <el-button type="primary" size="small" @click="submitUpdateHouse()"
           >确认</el-button
         >
-        <el-button size="small" @click="updateHouseClose">取消</el-button>
+        <el-button type="danger" size="small" @click="updateHouseClose">取消</el-button>
       </span>
     </el-dialog>
   </div>
@@ -175,7 +167,7 @@ export default {
         }
       });
     },
-    // 编辑用户
+    // 编辑
     editHouse(val) {
       this.addHouseVisible = true;
       this.editHoseForm = val;
@@ -188,12 +180,12 @@ export default {
         if (resp.code == 200) {
           this.addHouseVisible = false;
           this.$message({
-            message: "新增房源信息成功！",
+            message: "修改房源信息成功！",
             type: "success",
           });
           this.houseManagementInit();
         } else {
-          this.$message.error("新增房源信息失败，请检查后重新提交！");
+          this.$message.error("修改房源信息失败，请检查后重新提交！");
         }
       });
     },

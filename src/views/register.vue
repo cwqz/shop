@@ -21,30 +21,15 @@
           placeholder="输入密码"
         />
       </el-form-item>
-      <!-- <el-form-item label="性别">
-        <el-select v-model="form.sex" placeholder="请选择性别">
-          <el-option label="男" value="1" />
-          <el-option label="女" value="0" />
-        </el-select>
-      </el-form-item> -->
       <el-form-item label="用户角色">
         <el-select v-model="form.roleZh">
-          <el-option label="管理员" value="5684464427c543c38f5a3d649481b9be" />
+          <el-option label="酒店管理员" value="5684464427c543c38f5a3d649481b9be" />
           <el-option
             label="普通用户"
             value="ed98ce8b1af44a89b68a6894c95766d5"
           />
         </el-select>
       </el-form-item>
-      <!-- <el-form-item label="地址">
-        <el-input v-model="form.address"></el-input>
-      </el-form-item>
-      <el-form-item label="手机号">
-        <el-input v-model="form.phone"></el-input>
-      </el-form-item>
-      <el-form-item label="邮政编码">
-        <el-input v-model="form.postalCode"></el-input>
-      </el-form-item> -->
       <el-form-item>
         <el-button
           type="primary"
@@ -53,9 +38,6 @@
           >注册</el-button
         >
       </el-form-item>
-      <el-link type="primary" class="loginContainer-login" @click="goLogin()">
-        使用已有账号进行登录
-      </el-link>
     </el-form>
   </div>
 </template>
@@ -105,17 +87,13 @@ export default {
           ).then((resp) => {
             if (resp) {
               this.$message({ message: "注册成功，请登录", type: "success" });
-              this.$router.replace("/");
+              this.$router.replace("/login");
             }
           });
         } else {
           return false;
         }
       });
-    },
-    // 跳转到登录页
-    goLogin() {
-      this.$router.replace("/");
     },
   },
 };

@@ -1,19 +1,12 @@
 <template>
   <div class="personalCenter">
+    <router-link class="back-home" :to="{ path: '/' }">返回酒店前台</router-link>
     <div class="personalCenter_content">
       <div class="personalCenter_content_left">
-        <el-upload
-          action="#"
-          :http-request="upLoad"
-          :show-file-list="false"
-          :before-upload="beforeAvatarUpload"
-        >
-          <el-avatar
-            :src="src"
-            v-if="src"
+        <el-avatar
+            :src="this.$store.state.currentUser.avatar"
             class="personalCenter_content_left_img"
           />
-        </el-upload>
         <div class="personalCenter_content_left_user">
           <div
             class="personalCenter_content_left_user_name"
@@ -114,19 +107,101 @@
               </el-form-item>
             </el-form>
           </el-tab-pane>
+          <el-tab-pane label="会员信息">
+            <el-button type="primary" v-if="this.$store.state.currentUser.roles[0].name == 'user'" @click="vip"> 办理会员</el-button>
+            <span v-else>您已是本店会员</span>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </div>
     <div class="personalCenter_order">
-      <el-table :data="tableData" border style="width: 100%">
-        <el-table-column prop="date" label="日期" width="180">
+      <el-table 
+        :data="orderData" 
+        border 
+        style="width: 100%"
+        height="98%" 
+        :header-cell-style="{ 'text-align': 'center', background: '#f1f2f6' }"
+        :cell-style="{ 'text-align': 'center', padding: 6 + 'px' }"
+        :row-style="{ height: 45 + 'px' }"
+      >
+        <el-table-column prop="orderId" label="订单编号" width="180"/>
+        <el-table-column label="支付方式" width="100">
+          <template slot-scope="scope">
+            <span v-if="scope.row.payType === 0">支付宝</span>
+            <span v-if="scope.row.payType === 1">微信</span>
+            <span v-if="scope.row.payType === 2">银行卡</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="180">
+        <el-table-column prop="transactionAmount" label="金额(￥)" />
+        <el-table-column prop="house.position" label="房间号" width="120"/>
+        <el-table-column prop="house.title" label="房间类型" width="120" />
+        <el-table-column prop="house.peopleNum" label="可入住人数" width="100" />
+        <el-table-column label="状态" width="100">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status === 0">预定中</span>
+            <span v-if="scope.row.status === 1">取消订单</span>
+            <span v-if="scope.row.status === 2">入住中</span>
+            <span v-if="scope.row.status === 3">已退房</span>
+          </template>
+       </el-table-column>
+        <el-table-column prop="createTime" label="下单日期"  :formatter="formatDate" width="180"/>
+        <el-table-column prop="inTime" label="入住日期"  :formatter="formatDate" width="180"/>
+        <el-table-column prop="outTime" label="离店日期"  :formatter="formatDate" width="180"/>
+        <el-table-column prop="note" label="备注" show-overflow-tooltip width="120"/>
+        <el-table-column label="操作" fixed="right" width="140">
+          <template slot-scope="scope">
+            <el-button type="text" size="mini" @click="cancelOrder(scope.row)" v-if="scope.row.status === 0">取消订单</el-button>
+            <el-button type="text" size="mini" @click="cancelOrder(scope.row)" v-else :disabled="true">取消订单</el-button>
+            <el-button type="text" size="mini" @click="addEvaluate" v-if="scope.row.status === 3">评价</el-button>
+            <el-button type="text" size="mini" v-else :disabled="true">评价</el-button>
+          </template>
         </el-table-column>
-        <el-table-column prop="address" label="地址"> </el-table-column>
       </el-table>
     </div>
+    <!-- 办理会员 -->
+     <el-dialog
+      title="办理会员"
+      center
+      width="30%"
+      :visible="vipVisible"
+      :before-close="vipClose"
+    >
+        <p>付款账户：{{this.$store.state.currentUser.id}}</p>
+        <p>收款账户：XingQiTianJiuDian</p>
+        <p>收款人姓名：酒店张经理</p>
+        <p>转账金额：800 (￥)</p>
+      <span slot="footer" class="dialog_footer">
+        <el-button type="primary" size="small" @click="submitVip()"
+          >办理</el-button
+        >
+        <el-button type="danger" size="small" @click="vipClose">取消</el-button>
+      </span>
+    </el-dialog>
+    <!-- 添加评价 -->
+    <el-dialog
+      title="添加评价"
+      center
+      width="30%"
+      :visible="evaluateVisible"
+      :before-close="evaluateClose"
+    >
+        <el-input
+          type="textarea"
+          :rows="4"
+          maxlength="50"
+          show-word-limit
+          placeholder="请输入评价内容"
+          v-model="evaluate">
+        </el-input>
+      <span slot="footer" class="dialog_footer">
+        <el-button type="primary" size="small" @click="submitEvaluate()"
+          >提交</el-button
+        >
+        <el-button type="danger" size="small" @click="evaluateClose">取消</el-button>
+      </span>
+    </el-dialog>
   </div>
+
 </template>
 <script>
 export default {
@@ -148,8 +223,6 @@ export default {
       }
     };
     return {
-      // 用户头像
-      src: this.$store.state.currentUser.avatar,
       //   用户基本信息
       userMessageForm: {
         id: this.$store.state.currentUser.id,
@@ -194,42 +267,90 @@ export default {
         ],
       },
       message: "",
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄",
-        },
-      ],
+      orderData:[],
+      orderForm:{
+        id:"",
+        status:"1"
+      },
+      // 办理会员
+      vipVisible: false,
+      // 评价
+      evaluateVisible: false,
+      evaluate: ''
     };
   },
   created() {
-    this.order();
+    this.orderInit();
   },
   methods: {
-    order() {
+    // 订单初始化
+    orderInit() {
       this.getRequest(
         "/order/queryByUserId?userId=" + this.$store.state.currentUser.id
       ).then((resp) => {
         if (resp) {
-          console.log(resp.data);
+          this.orderData = resp.data;
         }
       });
+    },
+    //取消订单
+    cancelOrder(val){
+      this.orderForm.id = val.id;
+      this.orderForm.status = '1';
+      let house = {
+        'id': val.house.id,
+        'status': 0
+      };
+      this.$confirm("确认取消订单?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.putRequest("/order/update", this.orderForm).then((resp) => {
+            if (resp) {
+              this.$message({
+                type: "success",
+                message: "操作成功!",
+              });
+              this.putRequest("/house/update", house).then(resp => {
+                if(resp) {
+                  console.log("success");
+                }
+              })
+              this.orderInit();
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消",
+          });
+        });
+    },
+    // 办理会员
+    vip(val){
+      this.vipVisible = true
+    },
+    vipClose(){
+      this.vipVisible = false
+    },
+    submitVip(){
+      this.putRequest("/user/changeUserRole?userId=" + this.$store.state.currentUser.id + "&roleId=5edc5472476444c6a5d0c07816b9d041").then(resp => {
+        if(resp) {
+            this.vipVisible = false;
+            this.$store.state.currentUser.roles[0].id="5edc5472476444c6a5d0c07816b9d041";
+            this.$store.state.currentUser.roles[0].description="会员";
+            this.$store.state.currentUser.roles[0].name="vip";
+            this.$message({
+              message:'会员办理成功',
+              type:'success'
+            });
+            this.reload()
+
+        }
+      })
     },
     //   修改用户信息
     updateUser() {
@@ -275,36 +396,29 @@ export default {
         }
       });
     },
-    // 文件上传前的判断
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isPNG = file.type === "image/png";
-      const isGIF = file.type === "image/gif";
-      const isLt1M = file.size / 1024 / 1024 < 1;
-      if (!isJPG && !isPNG && !isGIF) {
-        this.$message.error("上传头像图片只能是 JPG, PNG, GIF格式!");
-      }
-      if (!isLt1M) {
-        this.$message.error("上传头像图片大小不能超过 1MB!");
-      }
-      return (isJPG || isPNG || isGIF) && isLt1M;
+    // 添加评价
+    addEvaluate() {
+      this.evaluateVisible = true
     },
-    // 上传文件到后台
-    upLoad(file) {
-      const formData = new FormData();
-      formData.append("file", file.file);
-      this.postRequest(
-        "/workbench-system/user/changeAvatar?oldAvatar=" +
-          this.$store.state.currentUser.avatar,
-        formData
-      ).then((resp) => {
-        if (resp) {
-          this.src = resp.data;
-          this.$store.state.currentUser.avatar = resp.data;
-          this.reload();
+    evaluateClose(){
+      this.evaluateVisible = false
+    },
+    submitEvaluate() {
+      let evaluateInfo = {
+        'userId': this.$store.state.currentUser.id,
+        'userName': this.$store.state.currentUser.username,
+        'evaluate': this.evaluate
+      }
+      this.postRequest("/order/evaluate", evaluateInfo).then(resp => {
+        if(resp) {
+          this.evaluateVisible = false;
+          this.$message({
+            message:'评价成功',
+            type:'success'
+          });
         }
-      });
-    },
+      })
+    }
   },
 };
 </script>

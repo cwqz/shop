@@ -28,11 +28,8 @@
             <i class="el-icon-arrow-down el-icon--right" />
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-user" @click.native="gotoPersonal()"
-              >个人中心</el-dropdown-item
-            >
-            <el-dropdown-item icon="el-icon-pie-chart" @click.native="logout()"
-              >退出登录</el-dropdown-item
+            <el-dropdown-item icon="el-icon-back" @click.native="gotoHotelHome()"
+              >返回酒店前台</el-dropdown-item
             >
           </el-dropdown-menu>
         </el-dropdown>
@@ -123,31 +120,9 @@ export default {
           name: route.matched[1].name,
         });
     },
-    // 跳转到个人中心页面
-    gotoPersonal() {
-      this.$router.push({ path: "/personalCenter" });
-    },
-    // 退出登录
-    logout() {
-      this.$confirm("此操作将退出系统，是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "waring",
-      })
-        .then(() => {
-          this.deleteRequest("/workbench-system/main/logout").then((resp) => {
-            if (resp) {
-              window.sessionStorage.clear();
-              this.$router.replace("/");
-            }
-          });
-        })
-        .catch(() => {
-          this.$message({
-            message: "已取消操作",
-            type: "info",
-          });
-        });
+    // 返回酒店前台
+    gotoHotelHome() {
+      this.$router.replace("/");
     },
   },
 };

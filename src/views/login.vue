@@ -41,12 +41,6 @@
       >
         登录
       </el-button>
-      <el-link
-        class="loginContainer-register"
-        type="primary"
-        @click="register()"
-        >注册</el-link
-      >
     </el-form>
   </div>
 </template>
@@ -103,32 +97,13 @@ export default {
             if (resp.code === 200) {
               this.$store.commit("INIT_CURRENTHR", resp.data);
               window.sessionStorage.setItem("token", JSON.stringify(resp.data));
-              if (
-                this.$store.state.isSale &&
-                this.$store.state.saleOrPersonal
-              ) {
-                this.$router.replace("/index");
-              } else if (
-                this.$store.state.isPersonal &&
-                !this.$store.state.saleOrPersonal
-              ) {
-                this.$router.replace("/personalCenter");
-              }
-              if (this.$store.state.searchFlag) {
-                this.$router.replace("/");
-              } else {
-                this.$router.go(-1);
-              }
+              this.$router.go(-1);
             }
           });
         } else {
           return this.$message.error(resp.message);
         }
       });
-    },
-    // 注册用户
-    register() {
-      this.$router.replace("/register");
     },
   },
 };

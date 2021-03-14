@@ -4,7 +4,7 @@
       <div class="header_all">
         <div class="header_title">欢迎来到星期天酒店！</div>
         <div class="header_menu">
-          <router-link :to="{ name: 'login' }">登录</router-link>
+          <span @click="login">{{this.$store.state.topLoginName}}</span>
           <el-divider direction="vertical" />
           <router-link :to="{ name: 'register' }">免费注册</router-link>
           <el-divider direction="vertical" />
@@ -34,7 +34,7 @@
               class="search_btn"
               icon="el-icon-search"
               @click="searcHouse()"
-              >预订</el-button
+              >选择日期</el-button
             >
           </div>
         </div>
@@ -42,192 +42,19 @@
       <el-divider class="divider" />
       <!-- 内容展示 -->
       <div class="product">
-        <div class="product_type">
-          <el-row>
-            <el-col :span="3">
-              <span class="el-icon-arrow-right product_type_name"> 类别:</span>
-              <span @click="setFlagAll()">全部</span>
-            </el-col>
-            <el-col :span="2">
-              <span @click="setFlag0()">标准间</span>
-            </el-col>
-            <el-col :span="2">
-              <span @click="setFlag1()">单人间</span>
-            </el-col>
-            <el-col :span="2">
-              <span @click="setFlag2()">大床房</span>
-            </el-col>
-            <el-col :span="2">
-              <span @click="setFlag3()">钟点房</span>
-            </el-col>
-            <el-col :span="2">
-              <span @click="setFlag4()">豪华总统房</span>
-            </el-col>
-            <el-col :span="2">
-              <span @click="setFlag5()">标准套间</span>
-            </el-col>
-          </el-row>
-        </div>
+        <el-tabs class="type-tabs" v-model="activeName" @tab-click="changeType">
+          <el-tab-pane label="全部" name="first" />
+          <el-tab-pane label="标准间" name="second" />
+          <el-tab-pane label="单人间" name="third" />
+          <el-tab-pane label="大床房" name="fourth" />
+          <el-tab-pane label="钟点房" name="five" />
+          <el-tab-pane label="标准套间" name="six" />
+          <el-tab-pane label="豪华总统房" name="seven" />
+        </el-tabs>
         <div>
-          <el-row :gutter="6" class="product_list" v-if="flag == 0">
+          <el-row :gutter="6" class="product_list">
             <el-col
-              v-for="(item, index) in publicHomeTable"
-              :key="index"
-              :span="3"
-              :offset="2"
-            >
-              <el-card
-                class="product_item"
-                shadow="always"
-                @click.native="Details(item)"
-              >
-                <img class="product_img" :src="item.img" alt="loading..." />
-                <div class="product_description">
-                  <span style="color: blue; font-size: 10px">{{
-                    item.title
-                  }}</span>
-                  <span>可入住人数：{{ item.peopleNum }} </span>
-                  <span>标准价格(￥)：{{ item.price }}</span>
-                  <span>会员价格(￥)：{{ item.memberPrice }}</span>
-                  <span>房间号：{{ item.position }} </span>
-                  <span>描述：{{ item.description }}</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row :gutter="6" class="product_list" v-if="flag == 1">
-            <el-col
-              v-for="(item, index) in newPublicHomeTable[0]"
-              :key="index"
-              :span="3"
-              :offset="2"
-            >
-              <el-card
-                class="product_item"
-                shadow="always"
-                @click.native="Details(item)"
-              >
-                <img class="product_img" :src="item.img" alt="loading..." />
-                <div class="product_description">
-                  <span style="color: blue; font-size: 10px">{{
-                    item.title
-                  }}</span>
-                  <span>可入住人数：{{ item.peopleNum }} </span>
-                  <span>标准价格(￥)：{{ item.price }}</span>
-                  <span>会员价格(￥)：{{ item.memberPrice }}</span>
-                  <span>房间号：{{ item.position }} </span>
-                  <span>描述：{{ item.description }}</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row :gutter="6" class="product_list" v-if="flag == 2">
-            <el-col
-              v-for="(item, index) in newPublicHomeTable[1]"
-              :key="index"
-              :span="3"
-              :offset="2"
-            >
-              <el-card
-                class="product_item"
-                shadow="always"
-                @click.native="Details(item)"
-              >
-                <img class="product_img" :src="item.img" alt="loading..." />
-                <div class="product_description">
-                  <span style="color: blue; font-size: 10px">{{
-                    item.title
-                  }}</span>
-                  <span>可入住人数：{{ item.peopleNum }} </span>
-                  <span>标准价格(￥)：{{ item.price }}</span>
-                  <span>会员价格(￥)：{{ item.memberPrice }}</span>
-                  <span>房间号：{{ item.position }} </span>
-                  <span>描述：{{ item.description }}</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row :gutter="6" class="product_list" v-if="flag == 3">
-            <el-col
-              v-for="(item, index) in newPublicHomeTable[2]"
-              :key="index"
-              :span="3"
-              :offset="2"
-            >
-              <el-card
-                class="product_item"
-                shadow="always"
-                @click.native="Details(item)"
-              >
-                <img class="product_img" :src="item.img" alt="loading..." />
-                <div class="product_description">
-                  <span style="color: blue; font-size: 10px">{{
-                    item.title
-                  }}</span>
-                  <span>可入住人数：{{ item.peopleNum }} </span>
-                  <span>标准价格(￥)：{{ item.price }}</span>
-                  <span>会员价格(￥)：{{ item.memberPrice }}</span>
-                  <span>房间号：{{ item.position }} </span>
-                  <span>描述：{{ item.description }}</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row :gutter="6" class="product_list" v-if="flag == 4">
-            <el-col
-              v-for="(item, index) in newPublicHomeTable[3]"
-              :key="index"
-              :span="3"
-              :offset="2"
-            >
-              <el-card
-                class="product_item"
-                shadow="always"
-                @click.native="Details(item)"
-              >
-                <img class="product_img" :src="item.img" alt="loading..." />
-                <div class="product_description">
-                  <span style="color: blue; font-size: 10px">{{
-                    item.title
-                  }}</span>
-                  <span>可入住人数：{{ item.peopleNum }} </span>
-                  <span>标准价格(￥)：{{ item.price }}</span>
-                  <span>会员价格(￥)：{{ item.memberPrice }}</span>
-                  <span>房间号：{{ item.position }} </span>
-                  <span>描述：{{ item.description }}</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row :gutter="6" class="product_list" v-if="flag == 5">
-            <el-col
-              v-for="(item, index) in newPublicHomeTable[4]"
-              :key="index"
-              :span="3"
-              :offset="2"
-            >
-              <el-card
-                class="product_item"
-                shadow="always"
-                @click.native="Details(item)"
-              >
-                <img class="product_img" :src="item.img" alt="loading..." />
-                <div class="product_description">
-                  <span style="color: blue; font-size: 10px">{{
-                    item.title
-                  }}</span>
-                  <span>可入住人数：{{ item.peopleNum }} </span>
-                  <span>标准价格(￥)：{{ item.price }}</span>
-                  <span>会员价格(￥)：{{ item.memberPrice }}</span>
-                  <span>房间号：{{ item.position }} </span>
-                  <span>描述：{{ item.description }}</span>
-                </div>
-              </el-card>
-            </el-col>
-          </el-row>
-          <el-row :gutter="6" class="product_list" v-if="flag == 6">
-            <el-col
-              v-for="(item, index) in newPublicHomeTable[5]"
+              v-for="(item, index) in typeTable"
               :key="index"
               :span="3"
               :offset="2"
@@ -254,28 +81,14 @@
         </div>
         <div class="contact">
           <el-tooltip
+            v-for="(item, index) in rightData"
+            :key="index"
             class="contact_item"
             effect="dark"
-            content="1776857122"
+            :content="item.content"
             placement="left"
           >
-            <img src="../assets/images/QQ.png" alt="QQ" />
-          </el-tooltip>
-          <el-tooltip
-            class="contact_item"
-            effect="dark"
-            content="18192180979"
-            placement="left"
-          >
-            <img src="../assets/images/wechart.png" alt="微信" />
-          </el-tooltip>
-          <el-tooltip
-            class="contact_item"
-            effect="dark"
-            content="19802928252"
-            placement="left"
-          >
-            <img src="../assets/images/phone.png" alt="电话" />
+            <img :src="item.src" alt="loading..." />
           </el-tooltip>
         </div>
       </div>
@@ -292,21 +105,32 @@ export default {
     return {
       publicHomeTable: [],
       //   分类好的
-      newPublicHomeTable: {},
+      newPublicHomeTable: [],
+      typeTable: [],
       value1: "",
-      //   房间类别
-      flag: 0,
+      activeName: 'first',
+      // 右侧qq等联系方式数据
+      rightData: [{
+        content: '1776857122',
+        src: 'http://nongbangshou.top:9090/hotel/house/QQ.png'
+      }, {
+        content: '18192180979',
+        src: 'http://nongbangshou.top:9090/hotel/house/wechart.png'
+      }, {
+        content: '19802928252',
+        src: 'http://nongbangshou.top:9090/hotel/house/phone.png'
+      }]
     };
   },
   created() {
     this.publicHomeInit();
-    this.$store.commit("CHANGE_SEARCH_FLAG", false);
   },
   methods: {
     publicHomeInit() {
       this.getRequest("/house/list").then((resp) => {
         if (resp) {
           this.publicHomeTable = resp.data;
+          this.typeTable = resp.data;
           this.publicHomeTable.forEach((e) => {
             if (
               Object.keys(this.newPublicHomeTable).indexOf("" + e.type) === -1
@@ -321,8 +145,10 @@ export default {
     // 根据日期搜索房间
     searcHouse() {
       if (this.$store.state.currentUser === null) {
-        this.$router.replace("/login");
-        this.$store.commit("CHANGE_SEARCH_FLAG", true);
+        this.$message({
+            type: "error",
+            message: "暂未登录，请先登录再进行预定",
+        });
       } else {
         this.publicHomeTable = [];
         this.newPublicHomeTable = {};
@@ -334,6 +160,8 @@ export default {
         ).then((resp) => {
           if (resp) {
             this.publicHomeTable = resp.data;
+            this.typeTable = resp.data;
+            this.activeName = 'first';
             this.publicHomeTable.forEach((e) => {
               if (
                 Object.keys(this.newPublicHomeTable).indexOf("" + e.type) === -1
@@ -342,31 +170,26 @@ export default {
               }
               this.newPublicHomeTable[e.type].push(e);
             });
-            this.$store.commit("CHANGE_SEARCH_FLAG", true);
           }
         });
       }
     },
-    setFlagAll() {
-      this.flag = 0;
-    },
-    setFlag0() {
-      this.flag = 1;
-    },
-    setFlag1() {
-      this.flag = 2;
-    },
-    setFlag2() {
-      this.flag = 3;
-    },
-    setFlag3() {
-      this.flag = 4;
-    },
-    setFlag4() {
-      this.flag = 5;
-    },
-    setFlag5() {
-      this.flag = 6;
+    changeType(tab) {
+      if(tab.index === '0') {
+        this.typeTable = this.publicHomeTable
+      } else if(tab.index === '1') {
+        this.typeTable = this.newPublicHomeTable[0]
+      } else if(tab.index === '2') {
+        this.typeTable = this.newPublicHomeTable[1]
+      } else if(tab.index === '3') {
+        this.typeTable = this.newPublicHomeTable[2]
+      } else if(tab.index === '4') {
+        this.typeTable = this.newPublicHomeTable[3]
+      } else if(tab.index === '5') {
+        this.typeTable = this.newPublicHomeTable[5]
+      } else if(tab.index === '6') {
+        this.typeTable = this.newPublicHomeTable[4]
+      }
     },
     // 详情页
     Details(val) {
@@ -374,20 +197,36 @@ export default {
       var arr = JSON.stringify(val);
       this.$router.push("/houseDetails?obj=" + encodeURIComponent(arr));
     },
-    toIndex() {
+    login() {
       if (this.$store.state.currentUser === null) {
-        this.$router.replace("/login");
-        this.$store.commit("CHANGE_IS_SALE", true);
-      } else {
-        this.$router.replace("/index");
+        this.$router.push("/login");
       }
     },
+    // 进入商家中心
+    toIndex() {
+      if (this.$store.state.currentUser === null) {
+        this.$message({
+            type: "error",
+            message: "暂未登录，请先登录",
+        });
+      } else if(this.$store.state.currentUser.roles[0].name === 'admin') { // 根据登录用户的角色判断是否为酒店管理员
+        this.$router.push("/index");
+      } else {
+        this.$message({
+            type: "error",
+            message: "您还不是本酒店的管理员",
+        });
+      }
+    },
+    // 进入个人中心
     toPersonalCenter() {
       if (this.$store.state.currentUser === null) {
-        this.$router.replace("/login");
-        this.$store.commit("CHANGE_IS_PERSONAL", true);
+        this.$message({
+            type: "error",
+            message: "暂未登录，请先登录",
+        });
       } else {
-        this.$router.replace("/personalCenter");
+        this.$router.push("/personalCenter");
       }
     },
   },

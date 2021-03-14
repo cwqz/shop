@@ -6,7 +6,7 @@ proxyObj["/ws"] = {
 proxyObj["/"] = {
     ws: false,
     // 配置自己的后台地址和端口
-    target: "http://192.168.0.153:8888",
+    target: "http://192.168.0.104:8888",
     changeOrigin: true,
     pathRewrite: {
         "^/": ""
